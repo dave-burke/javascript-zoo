@@ -1,0 +1,61 @@
+<!doctype html>
+<html>
+	<head>
+		<title>Vue</title>
+		<script src="https://unpkg.com/vue"></script>
+		<script src="https://cdn.jsdelivr.net/emojione/2.2.7/lib/js/emojione.min.js"></script>
+		<link rel="stylesheet" href="https://cdn.jsdelivr.net/emojione/2.2.7/assets/css/emojione.min.css"/>
+		<style> 
+			#app {
+				display: flex;
+			}
+			.dots {
+				display: inline-block;
+				width: 75px;
+				margin: 10px;
+			}
+			.dots h1 {
+				text-align: center;
+			}
+			.dot {
+				display: inline-block;
+				width: 10px;
+				height: 10px;
+				border-radius: 5px;
+				margin: 2px;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="app">
+			<dots header=":slight_smile:" dot-color="green"></dots>
+			<dots header=":slight_frown:" dot-color="red"></dots>
+		</div>
+		<script>
+			Vue.component('dots', {
+				props: ['header', 'dot-color'],
+				template: `
+					<div class="dots">
+						<h1 v-html="emoji" @click="addDot"></h1>
+						<hr>
+						<div class="dot" v-bind:style="{ backgroundColor: dotColor }" v-for="dot in dots"></div>
+					</div>`,
+				data: function() { return { 
+					dots: []
+				}},
+				computed: {
+					emoji: function() {
+						return emojione.shortnameToImage(this.header);
+					}
+				},
+				methods: {
+					addDot: function() {
+						console.log("adding");
+						this.dots.push('');
+					}
+				}
+			});
+			const app = new Vue({ el: '#app' });
+		</script>
+	</body>
+</html>
